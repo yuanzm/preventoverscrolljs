@@ -1,6 +1,6 @@
 /*
  * @author: zimyuan
- * @last-edit-date: 2015-09-30
+ * @last-edit-date: 2015-11-27
  * @depend: none
  */
 (function(win, doc) {
@@ -9,10 +9,10 @@
     var startMoveYmap = {}, // 用于暂存元素开始滑动的起始位置
         // 组件默认配置
         _defaultConfig = {
-            list: [],
-            containerClass: 'prevent-overscroll-container',
-            styleId: 'prevent-overscroll-style',
-            styleStr: '{overflow-y: scroll; -webkit-overflow-scrolling: touch;}'
+            list           : [],
+            containerClass : 'prevent-overscroll-container',
+            styleId        : 'prevent-overscroll-style',
+            styleStr       : '{overflow-y: scroll; -webkit-overflow-scrolling: touch;}'
         };
     /*
      * 微信里面放置下拉`露底`组件
@@ -22,7 +22,6 @@
      * 1. 引用组件对应的脚本文件
      * 2. 给需要设定防止拉动漏黑底的元素设置id
      * 3. 可以使用与window对象绑定的组件实例`preventMoveOverScroll`,也可以自己实例化组件
-     * 4. 
      */
     function PreventMoveOverScroll(options) {
         // 通过深拷贝，扩展(替换)默认配置
@@ -102,10 +101,15 @@
         },
         // 绑定事件处理程序
         bindEvent: function(eleArr) {
-            var elem, _oSelf = this;
+            var elem, _oSelf = this,
+                error;
 
             for (var i = 0, il = eleArr.length; i < il; i++) {
                 elem = document.getElementById(eleArr[i]);
+                if (!elem) {
+                    error = 'elem ' + eleArr[i] + 'is not exist!';
+                    throw error;
+                }
                 addEvent(elem, 'touchstart', _oSelf.startMove);
                 addEvent(elem, 'touchmove', _oSelf.preventMove);
             }
@@ -131,9 +135,9 @@
     }
 
     win.PreventMoveOverScroll = PreventMoveOverScroll;
-    win.preventMoveOverScroll = new PreventMoveOverScroll({
-        list: ['container']
-    });
+    // win.preventMoveOverScroll = new PreventMoveOverScroll({
+    //     list: ['container']
+    // });
     // ----------------------------------------- 辅助函数 -------------------------------------------------
         /*
          * 检测设备类型
@@ -210,4 +214,6 @@
         }
         return newObj;
     }
+
+    win.checkDeviceType = checkDeviceType;
 })(window, document);
