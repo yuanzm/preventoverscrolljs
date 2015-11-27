@@ -23,7 +23,7 @@ JavaScript一种直译式脚本语言，是一种动态类型、弱类型、基�
 <script type="text/javascript" src="preventoverscroll.js"></script>
 <script type="text/javascript">
     var outer = checkDeviceType('ios') ? 'container' : 'wrapper';
-    win.preventMoveOverScroll = new PreventMoveOverScroll({
+    window.preventMoveOverScroll = new PreventMoveOverScroll({
         list: [outer]
     });
 </script>
