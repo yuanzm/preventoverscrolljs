@@ -1,8 +1,9 @@
 /*
  * @author: zimyuan
- * @last-edit-date: 2015-11-27
+ * @last-edit-date: 2016-01-11
  * @depend: none
  */
+
 (function(win, doc) {
     'use strict';
 
@@ -14,6 +15,7 @@
             styleId        : 'prevent-overscroll-style',
             styleStr       : '{overflow-y: scroll; -webkit-overflow-scrolling: touch;}'
         };
+
     /*
      * 微信里面放置下拉`露底`组件
      * @param {Object} options: 组件配置
@@ -135,9 +137,7 @@
     }
 
     win.PreventMoveOverScroll = PreventMoveOverScroll;
-    // win.preventMoveOverScroll = new PreventMoveOverScroll({
-    //     list: ['container']
-    // });
+    
     // ----------------------------------------- 辅助函数 -------------------------------------------------
         /*
          * 检测设备类型
