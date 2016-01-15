@@ -1,1 +1,1 @@
-module.exports = require('lib/preventoverscroll');
+module.exports = require('./lib/preventoverscroll');

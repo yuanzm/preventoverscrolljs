@@ -1,3 +1,7 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = require('./lib/preventoverscroll');
+
+},{"./lib/preventoverscroll":2}],2:[function(require,module,exports){
 /**
  * @author: zimyuan
  * @last-edit-date: 2016-01-15
@@ -159,3 +163,100 @@ PreventOverScroll.prototype = {
 module.exports = {
 	PreventOverScroll: PreventOverScroll
 };
+
+},{"./util":3}],3:[function(require,module,exports){
+/*
+ * @author: yuanzm
+ * @last-edit-date: 2016-01-15
+ */
+ 
+function checkDeviceType(type) {
+    var agent 	   = navigator.userAgent,
+        _isAndroid = /(Android)/i.test(agent),
+        _isiOS     = /(iPhone|iPad|iPod|iOS)/i.test(agent) && !_isAndroid;
+
+    return (  type == 'ios' 
+    	    ? _isiOS 
+    	    : _isAndroid  );
+}
+
+function addEvent(dom, eType, handler) {
+    if ( dom.addEventListener ) {
+        dom.addEventListener(eType, handler, false);
+    }
+
+    else if ( dom.attachEvent ) {
+        dom.attachEvent("on" + eType, handler);
+    } 
+
+    else {
+        dom["on" + eType] = handler;
+    }
+}
+
+function removeEvent(dom, eType, handler) {
+    if ( dom.removeEventListener ) {
+        dom.removeEventListener(eType, handler, false);
+    } 
+
+    else if ( dom.detachEvent ) {
+        dom.detachEvent('on' + eType, handler);
+    } 
+
+    else {
+        dom["on" + eType] = null;
+    }
+}
+
+function is(obj, type) {
+    var toString = Object.prototype.toString,
+        undefined;
+
+    return (  type === 'Null' 
+    		&& obj === null  ) 
+    	   ||
+		   (  type === "Undefined" 
+		   	&& obj === undefined  ) 
+		   ||
+		   (  toString.call(obj).slice(8, -1) === type  );
+}
+
+function extend(oldObj, newObj) {
+    for (var key in oldObj) {
+        var copy = oldObj[key];
+
+        if (  oldObj === copy 
+        	|| key in newObj  ) {
+        	continue; //如window.window === window，会陷入死循环，需要处理一下
+        }
+
+        if ( is(copy, "Object") ) {
+            newObj[key] = extend(copy, newObj[key] || {});
+        }
+
+        else if (is(copy, "Array")) {
+            newObj[key] = [];
+            newObj[key] = extend(copy, newObj[key] || []);
+        }
+
+        else {
+            newObj[key] = copy;
+        }
+    }
+
+    return newObj;
+}
+
+var util = {
+	checkDeviceType : checkDeviceType,
+	addEvent 	    : addEvent,
+	removeEvent 	: removeEvent,
+	extend   		: extend
+};
+
+module.exports = util;
+
+},{}],4:[function(require,module,exports){
+window.PreventOverScroll = require('./index.js').PreventOverScroll;
+
+},{"./index.js":1}]},{},[4]);
