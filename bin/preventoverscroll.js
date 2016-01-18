@@ -14,7 +14,7 @@ var doc            = document,
 	startMoveYmap  = {},
 	_defaultConfig = {
 		list           : [],
-		containerClass : 'prevent_over_scroll_container',
+		cClass         : 'prevent_over_scroll_container',
 		styleId        : 'prevent_over_scroll_style',
 		styleStr       : '{overflow-y: scroll; -webkit-overflow-scrolling: touch;}'
 	};
@@ -51,7 +51,7 @@ PreventOverScroll.prototype = {
 			if (!item)
 				throw '';
 
-			item.className += that.config.containerClass;
+			item.className += that.config.cClass;
 		}
 
 		this._appendStyle();
@@ -62,10 +62,12 @@ PreventOverScroll.prototype = {
 		if ( document.getElementById(this.config.styleId) )
 			return;
 
-		var style = doc.createElement('style');
+		var style    = doc.createElement('style'),
+			styleStr = '.' + this.config.cClass + this.config.styleStr;
 
+		styleStr += ' html, body {width: 100%; height: 100;}'
 		style.id        = this.config.styleId;
-		style.innerHTML = '.' + this.config.containerClass + this.config.styleStr;
+		style.innerHTML = styleStr;
 
 		doc.getElementsByTagName('head')[0].appendChild(style);
 	},
@@ -146,7 +148,7 @@ PreventOverScroll.prototype = {
 		this.config.list.push(id);
 		startMoveYmap[id] = 0;
 		item              = doc.getElementById(id);
-		item.className    += this.config.containerClass;
+		item.className    += this.config.cClass;
 		this._bindEvent([id]);
 	},
 
