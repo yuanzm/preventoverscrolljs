@@ -65,7 +65,7 @@ PreventOverScroll.prototype = {
 		var style    = doc.createElement('style'),
 			styleStr = '.' + this.config.cClass + this.config.styleStr;
 
-		styleStr += ' html, body {width: 100%; height: 100;}'
+		styleStr += ' html, body {width: 100%; height: 100%;}'
 		style.id        = this.config.styleId;
 		style.innerHTML = styleStr;
 
